@@ -28,25 +28,53 @@ function App() {
       center: initialCenter,
       zoom: initialZoom,
       style: "mapbox://styles/mapbox/satellite-v9",
+      attributionControl: false,
     });
     mapRefB.current = new mapboxgl.Map({
       container: mapContainerRefB.current,
       center: initialCenter,
       zoom: initialZoom,
       style: "mapbox://styles/mapbox/satellite-v9",
+      attributionControl: false,
     });
     mapRefC.current = new mapboxgl.Map({
       container: mapContainerRefC.current,
       center: initialCenter,
       zoom: initialZoom,
       style: "mapbox://styles/mapbox/satellite-v9",
+      attributionControl: false,
     });
     mapRefD.current = new mapboxgl.Map({
       container: mapContainerRefD.current,
       center: initialCenter,
       zoom: initialZoom,
       style: "mapbox://styles/mapbox/satellite-v9",
+      attributionControl: false,
     });
+
+    const setupMaps = () => {
+      console.log("All maps loaded - setting up to sync");
+      syncMaps(
+        mapRefA.current,
+        mapRefB.current,
+        mapRefC.current,
+        mapRefD.current,
+      );
+    };
+
+    let mapsLoaded = 0;
+    const checkAllMapsLoaded = () => {
+      mapsLoaded++;
+      console.log(`Map ${mapsLoaded}/4 loaded`);
+      if (mapsLoaded === 4) {
+        setupMaps();
+      }
+    };
+
+    mapRefA.current.on("load", checkAllMapsLoaded);
+    mapRefB.current.on("load", checkAllMapsLoaded);
+    mapRefC.current.on("load", checkAllMapsLoaded);
+    mapRefD.current.on("load", checkAllMapsLoaded);
 
     mapRefA.current.on("move", () => {
       const mapZoom = mapRefA.current.getZoom();
