@@ -149,7 +149,7 @@ function App() {
   return (
     <>
       <div>
-        <button onClick={() => setActiveLayer(!activeLayer)}>Level 0</button>
+        <button onClick={() => setActiveLayer(!activeLayer)}>Level 0.</button>
       </div>
       <div id="zoom-bar"> Zoom:{zoom.toFixed(2)}</div>
       <div className="map-container">
