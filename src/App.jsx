@@ -15,6 +15,9 @@ function App() {
   const mapContainerRefB = useRef();
   const mapContainerRefC = useRef();
   const mapContainerRefD = useRef();
+
+  const [activeLayer, setActiveLayer] = useState(true);
+
   const accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
   const initialCenter = [-60.17795, -6.82434];
   const initialZoom = 5;
@@ -71,6 +74,40 @@ function App() {
       }
     };
 
+    mapRefA.current.on("load", () => {
+      // Source: GeoJSON Placeholder
+      mapRefA.current.addSource("level0-text-source", {
+        type: "geojson",
+        data: {
+          type: "Feature",
+          geometry: {
+            type: "Point",
+            coordinates: initialCenter,
+          },
+          properties: {
+            text: "LEVEL 0 - OVERVIEW",
+          },
+        },
+      });
+
+      // Layer: placeholder
+      mapRefA.current.addLayer({
+        id: "level0-text-layer",
+        type: "symbol",
+        source: "level0-text-source",
+        layout: {
+          "text-field": ["get", "text"],
+          "text-size": 24,
+          visibility: "visible", // initial visible
+        },
+        paint: {
+          "text-color": "#ffffff",
+        },
+      });
+
+      checkAllMapsLoaded();
+    });
+
     mapRefA.current.on("load", checkAllMapsLoaded);
     mapRefB.current.on("load", checkAllMapsLoaded);
     mapRefC.current.on("load", checkAllMapsLoaded);
@@ -90,8 +127,30 @@ function App() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!mapRefA.current) return;
+    if (!mapRefA.current.isStyleLoaded()) return;
+
+    if (activeLayer) {
+      mapRefA.current.setLayoutProperty(
+        "level0-text-layer",
+        "visibility",
+        "visible",
+      );
+    } else {
+      mapRefA.current.setLayoutProperty(
+        "level0-text-layer",
+        "visibility",
+        "none",
+      );
+    }
+  }, [activeLayer]);
+
   return (
     <>
+      <div>
+        <button onClick={() => setActiveLayer(!activeLayer)}>Level 0</button>
+      </div>
       <div id="zoom-bar"> Zoom:{zoom.toFixed(2)}</div>
       <div className="map-container">
         <div id="map-a" ref={mapContainerRefA}></div>
