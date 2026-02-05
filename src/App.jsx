@@ -16,7 +16,10 @@ function App() {
   const mapContainerRefC = useRef();
   const mapContainerRefD = useRef();
 
-  const [activeLayer, setActiveLayer] = useState(true);
+  const [activeLayerA, setActiveLayerA] = useState(true);
+  const [activeLayerB, setActiveLayerB] = useState(true);
+  const [activeLayerC, setActiveLayerC] = useState(true);
+  const [activeLayerD, setActiveLayerD] = useState(true);
 
   const accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
   const initialCenter = [-60.17795, -6.82434];
@@ -75,7 +78,7 @@ function App() {
     };
 
     mapRefA.current.on("load", () => {
-      // Source: GeoJSON Placeholder
+      // Source: GeoJSON Placeholder A
       mapRefA.current.addSource("level0-text-source", {
         type: "geojson",
         data: {
@@ -90,11 +93,113 @@ function App() {
         },
       });
 
-      // Layer: placeholder
+      // Layer: placeholder A
       mapRefA.current.addLayer({
         id: "level0-text-layer",
         type: "symbol",
         source: "level0-text-source",
+        layout: {
+          "text-field": ["get", "text"],
+          "text-size": 24,
+          visibility: "visible", // initial visible
+        },
+        paint: {
+          "text-color": "#ffffff",
+        },
+      });
+
+      checkAllMapsLoaded();
+    });
+
+    mapRefB.current.on("load", () => {
+      // Source: GeoJSON Placeholder B
+      mapRefB.current.addSource("level1-text-source", {
+        type: "geojson",
+        data: {
+          type: "Feature",
+          geometry: {
+            type: "Point",
+            coordinates: initialCenter,
+          },
+          properties: {
+            text: "LEVEL 1 - OVERVIEW",
+          },
+        },
+      });
+
+      // Layer: placeholder B
+      mapRefB.current.addLayer({
+        id: "level1-text-layer",
+        type: "symbol",
+        source: "level1-text-source",
+        layout: {
+          "text-field": ["get", "text"],
+          "text-size": 24,
+          visibility: "visible", // initial visible
+        },
+        paint: {
+          "text-color": "#ffffff",
+        },
+      });
+
+      checkAllMapsLoaded();
+    });
+
+    mapRefC.current.on("load", () => {
+      // Source: GeoJSON Placeholder C
+      mapRefC.current.addSource("level2-text-source", {
+        type: "geojson",
+        data: {
+          type: "Feature",
+          geometry: {
+            type: "Point",
+            coordinates: initialCenter,
+          },
+          properties: {
+            text: "LEVEL 2 - OVERVIEW",
+          },
+        },
+      });
+
+      // Layer: placeholder C
+      mapRefC.current.addLayer({
+        id: "level2-text-layer",
+        type: "symbol",
+        source: "level2-text-source",
+        layout: {
+          "text-field": ["get", "text"],
+          "text-size": 24,
+          visibility: "visible", // initial visible
+        },
+        paint: {
+          "text-color": "#ffffff",
+        },
+      });
+
+      checkAllMapsLoaded();
+    });
+
+    mapRefD.current.on("load", () => {
+      // Source: GeoJSON Placeholder D
+      mapRefD.current.addSource("level3-text-source", {
+        type: "geojson",
+        data: {
+          type: "Feature",
+          geometry: {
+            type: "Point",
+            coordinates: initialCenter,
+          },
+          properties: {
+            text: "LEVEL 3 - OVERVIEW",
+          },
+        },
+      });
+
+      // Layer: placeholder C
+      mapRefD.current.addLayer({
+        id: "level3-text-layer",
+        type: "symbol",
+        source: "level3-text-source",
         layout: {
           "text-field": ["get", "text"],
           "text-size": 24,
@@ -131,7 +236,7 @@ function App() {
     if (!mapRefA.current) return;
     if (!mapRefA.current.isStyleLoaded()) return;
 
-    if (activeLayer) {
+    if (activeLayerA) {
       mapRefA.current.setLayoutProperty(
         "level0-text-layer",
         "visibility",
@@ -144,12 +249,71 @@ function App() {
         "none",
       );
     }
-  }, [activeLayer]);
+  }, [activeLayerA]);
+
+  useEffect(() => {
+    if (!mapRefB.current) return;
+    if (!mapRefB.current.isStyleLoaded()) return;
+    if (activeLayerB) {
+      mapRefB.current.setLayoutProperty(
+        "level1-text-layer",
+        "visibility",
+        "visible",
+      );
+    } else {
+      mapRefB.current.setLayoutProperty(
+        "level1-text-layer",
+        "visibility",
+        "none",
+      );
+    }
+  }, [activeLayerB]);
+
+  useEffect(() => {
+    if (!mapRefC.current) return;
+    if (!mapRefC.current.isStyleLoaded()) return;
+
+    if (activeLayerC) {
+      mapRefC.current.setLayoutProperty(
+        "level2-text-layer",
+        "visibility",
+        "visible",
+      );
+    } else {
+      mapRefC.current.setLayoutProperty(
+        "level2-text-layer",
+        "visibility",
+        "none",
+      );
+    }
+  }, [activeLayerC]);
+
+  useEffect(() => {
+    if (!mapRefD.current) return;
+    if (!mapRefD.current.isStyleLoaded()) return;
+
+    if (activeLayerD) {
+      mapRefD.current.setLayoutProperty(
+        "level3-text-layer",
+        "visibility",
+        "visible",
+      );
+    } else {
+      mapRefD.current.setLayoutProperty(
+        "level3-text-layer",
+        "visibility",
+        "none",
+      );
+    }
+  }, [activeLayerD]);
 
   return (
     <>
       <div>
-        <button onClick={() => setActiveLayer(!activeLayer)}>Level 0.</button>
+        <button onClick={() => setActiveLayerA(!activeLayerA)}>Level 0</button>
+        <button onClick={() => setActiveLayerB(!activeLayerB)}>Level 1</button>
+        <button onClick={() => setActiveLayerC(!activeLayerC)}>Level 2</button>
+        <button onClick={() => setActiveLayerD(!activeLayerD)}>Level3</button>
       </div>
       <div id="zoom-bar"> Zoom:{zoom.toFixed(2)}</div>
       <div className="map-container">
