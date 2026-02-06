@@ -233,79 +233,60 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (!mapRefA.current) return;
-    if (!mapRefA.current.isStyleLoaded()) return;
+    if (
+      !mapRefA.current ||
+      !mapRefB.current ||
+      !mapRefC.current ||
+      !mapRefD.current
+    )
+      return;
+    if (
+      !mapRefA.current.isStyleLoaded() ||
+      !mapRefB.current.isStyleLoaded() ||
+      !mapRefC.current.isStyleLoaded() ||
+      !mapRefD.current.isStyleLoaded()
+    )
+      return;
 
-    if (activeLayerA) {
-      mapRefA.current.setLayoutProperty(
-        "level0-text-layer",
-        "visibility",
-        "visible",
-      );
-    } else {
-      mapRefA.current.setLayoutProperty(
-        "level0-text-layer",
-        "visibility",
-        "none",
-      );
-    }
-  }, [activeLayerA]);
+    const mapConfigs = [
+      {
+        mapRef: mapRefA,
+        activeLayer: activeLayerA,
+        layerId: "level0-text-layer",
+      },
+      {
+        mapRef: mapRefB,
+        activeLayer: activeLayerB,
+        layerId: "level1-text-layer",
+      },
+      {
+        mapRef: mapRefC,
+        activeLayer: activeLayerC,
+        layerId: "level2-text-layer",
+      },
+      {
+        mapRef: mapRefD,
+        activeLayer: activeLayerD,
+        layerId: "level3-text-layer",
+      },
+    ];
 
-  useEffect(() => {
-    if (!mapRefB.current) return;
-    if (!mapRefB.current.isStyleLoaded()) return;
-    if (activeLayerB) {
-      mapRefB.current.setLayoutProperty(
-        "level1-text-layer",
-        "visibility",
-        "visible",
-      );
-    } else {
-      mapRefB.current.setLayoutProperty(
-        "level1-text-layer",
-        "visibility",
-        "none",
-      );
-    }
-  }, [activeLayerB]);
-
-  useEffect(() => {
-    if (!mapRefC.current) return;
-    if (!mapRefC.current.isStyleLoaded()) return;
-
-    if (activeLayerC) {
-      mapRefC.current.setLayoutProperty(
-        "level2-text-layer",
-        "visibility",
-        "visible",
-      );
-    } else {
-      mapRefC.current.setLayoutProperty(
-        "level2-text-layer",
-        "visibility",
-        "none",
-      );
-    }
-  }, [activeLayerC]);
-
-  useEffect(() => {
-    if (!mapRefD.current) return;
-    if (!mapRefD.current.isStyleLoaded()) return;
-
-    if (activeLayerD) {
-      mapRefD.current.setLayoutProperty(
-        "level3-text-layer",
-        "visibility",
-        "visible",
-      );
-    } else {
-      mapRefD.current.setLayoutProperty(
-        "level3-text-layer",
-        "visibility",
-        "none",
-      );
-    }
-  }, [activeLayerD]);
+    mapConfigs.forEach((config) => {
+      if (config.activeLayer) {
+        config.mapRef.current.setLayoutProperty(
+          config.layerId,
+          "visibility",
+          "visible",
+        );
+      } else {
+        config.mapRef.current.setLayoutProperty(
+          config.layerId,
+          "visibility",
+          "none",
+        );
+      }
+    });
+  }, [activeLayerA, activeLayerB, activeLayerC, activeLayerD]);
 
   return (
     <>
