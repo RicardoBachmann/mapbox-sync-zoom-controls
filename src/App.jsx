@@ -253,6 +253,89 @@ function App() {
         <div id="map-b" ref={mapContainerRefB}></div>
         <div id="map-c" ref={mapContainerRefC}></div>
       </div>
+      {/* Layer Control Panel */}
+      <div
+        style={{
+          backgroundColor: "#fff",
+          padding: "20px",
+          borderTop: "2px solid #ddd",
+          display: "flex",
+          gap: "30px",
+          justifyContent: "space-around",
+        }}
+      >
+        {/* Map A Controls */}
+        <div>
+          <h4
+            style={{
+              margin: "0 0 10px 0",
+              fontSize: "14px",
+              fontWeight: "bold",
+            }}
+          >
+            Map A (Level 0)
+          </h4>
+          <label
+            style={{ display: "block", marginBottom: "5px", cursor: "pointer" }}
+          >
+            <input
+              type="checkbox"
+              checked={activeLayerA}
+              onChange={() => setActiveLayerA(!activeLayerA)}
+              style={{ marginRight: "8px" }}
+            />
+            Indigenous Territories
+          </label>
+        </div>
+
+        {/* Map B Controls */}
+        <div>
+          <h4
+            style={{
+              margin: "0 0 10px 0",
+              fontSize: "14px",
+              fontWeight: "bold",
+            }}
+          >
+            Map B (Level 1)
+          </h4>
+          <label
+            style={{ display: "block", marginBottom: "5px", cursor: "pointer" }}
+          >
+            <input
+              type="checkbox"
+              checked={activeLayerB}
+              onChange={() => setActiveLayerB(!activeLayerB)}
+              style={{ marginRight: "8px" }}
+            />
+            CH4 Hotspots
+          </label>
+        </div>
+
+        {/* Map C Controls */}
+        <div>
+          <h4
+            style={{
+              margin: "0 0 10px 0",
+              fontSize: "14px",
+              fontWeight: "bold",
+            }}
+          >
+            Map C (Level 2)
+          </h4>
+          <label
+            style={{ display: "block", marginBottom: "5px", cursor: "pointer" }}
+          >
+            <input
+              type="checkbox"
+              checked={activeLayerC}
+              onChange={() => setActiveLayerC(!activeLayerC)}
+              style={{ marginRight: "8px" }}
+            />
+            HCHO Zones
+          </label>
+        </div>
+      </div>
     </>
   );
 }
