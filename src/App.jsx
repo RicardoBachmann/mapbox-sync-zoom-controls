@@ -21,8 +21,8 @@ function App() {
   const [activeLayerC, setActiveLayerC] = useState(true);
 
   const accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
-  const initialCenter = [-60.17795, -6.82434];
-  const initialZoom = 5;
+  const initialCenter = [-54.4422, -7.4702];
+  const initialZoom = 6;
   const [zoom, setZoom] = useState(initialZoom);
 
   useEffect(() => {
